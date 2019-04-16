@@ -4411,9 +4411,11 @@ inline_size int
 infy_newfd (void)
 {
 #if defined IN_CLOEXEC && defined IN_NONBLOCK
+#if !defined __ANDROID__ || __ANDROID_API__ >= 21
   int fd = inotify_init1 (IN_CLOEXEC | IN_NONBLOCK);
   if (fd >= 0)
     return fd;
+#endif
 #endif
   return inotify_init ();
 }
